@@ -7,10 +7,11 @@ function getPosition() {
 }
 
 export const fetchAddress = createAsyncThunk(
-  "user/getchAddress",
+  "user/fetchAddress",
   async function () {
     // 1) We get the user's geolocation position
     const positionObj = await getPosition();
+    
     const position = {
       latitude: positionObj.coords.latitude,
       longitude: positionObj.coords.longitude,
@@ -29,7 +30,7 @@ export const fetchAddress = createAsyncThunk(
 const initialState = {
   userName: "",
   status: "idle",
-  poisiton: {},
+  position: {},
   address: "",
   error: "",
 };
@@ -50,7 +51,7 @@ const userSlice = createSlice({
     )
     .addCase(fetchAddress.fulfilled, (state, action) => {
       state.address = action.payload.address,
-      state.poisiton = action.payload.position,
+      state.position = action.payload.position,
       state.status = 'idle'
     })
     .addCase(fetchAddress.rejected, (state, action) => {
